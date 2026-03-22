@@ -14,7 +14,7 @@ _surfaces = [{
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 36,
-"vertex_data": PackedByteArray("AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA//////wAA/7//////AAD/v/////8AAP+/AAD/f/9//78AAP9//3//vwAA/3//f/+//38AAP///7//fwAA////v/9/AAD///+/AAD/f/9//78AAP9//3//vwAA/3//f/+//3///wAA/7//f///AAD/v/9///8AAP+//3//f////7//f/9/////v/9//3////+//38AAP///7//fwAA////v/9/AAD///+/////f/////////9//////////3///////3//f////7//f/9/////v/9//3////+//////wAA/7//////AAD/v/////8AAP+//3///wAA/7//f///AAD/v/9///8AAP+/////f/////////9//////////3//////")
+"vertex_data": PackedByteArray("AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA//////wAA/7//////AAD/v/////8AAP+/AAAAgP9//78AAACA/3//vwAAAID/f/+/AIAAAP///78AgAAA////vwCAAAD///+/AAAAgP9//78AAACA/3//vwAAAID/f/+/AID//wAA/78AgP//AAD/vwCA//8AAP+//3//f////7//f/9/////v/9//3////+/AIAAAP///78AgAAA////vwCAAAD///+///8AgP///////wCA////////AID//////3//f////7//f/9/////v/9//3////+//////wAA/7//////AAD/v/////8AAP+/AID//wAA/78AgP//AAD/vwCA//8AAP+///8AgP///////wCA////////AID/////")
 }]
 metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "Auto Translate": null,
@@ -191,6 +191,10 @@ _surfaces = [{
 "vertex_count": 36,
 "vertex_data": PackedByteArray("AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA//////wAA/7//////AAD/v/////8AAP+/AAD/f/9//78AAP9//3//vwAA/3//f/+//38AAP///7//fwAA////v/9/AAD///+/AAD/f/9//78AAP9//3//vwAA/3//f/+//3///wAA/7//f///AAD/v/9///8AAP+//3//f////7//f/9/////v/9//3////+//38AAP///7//fwAA////v/9/AAD///+/////f/////////9//////////3///////3//f////7//f/9/////v/9//3////+//////wAA/7//////AAD/v/////8AAP+//3///wAA/7//f///AAD/v/9///8AAP+/////f/////////9//////////3//////")
 }]
+
+[sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_noarx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_r3fl7"]
 
@@ -817,11 +821,11 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visible": true
 }, []]]]
 
-[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D" unique_id=1607574243]
+[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D" unique_id=1504895536]
 editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
 script = ExtResource("1_a202f")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D/MeshInstanceCSGEditor" unique_id=784566446]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D/MeshInstanceCSGEditor" unique_id=686654027]
 mesh = SubResource("BoxMesh_i5arm")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=487654504 groups=["e"]]
@@ -979,6 +983,19 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visibility_range_fade_mode": 0,
 "visible": true
 }, []]]]
+
+[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D2" unique_id=1345683782]
+editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
+script = ExtResource("1_a202f")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=2093423503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26981336, 0, 0.1331687)
+mesh = SubResource("BoxMesh_a0tk4")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=2109583081]
+transform = Transform3D(0.63209265, -0.75331664, 0.18158357, 0.75331676, 0.5424709, -0.371805, 0.18158317, 0.37180528, 0.9103779, -0.006488383, 0.37523204, -0.0131464)
+operation = 2
+mesh = SubResource("SphereMesh_noarx")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D" unique_id=223806027 groups=["e"]]
 transform = Transform3D(0.896726, 0, -0.44258606, 0, 1, 0, 0.44258606, 0, 0.896726, 0.89731085, 0.40643835, -5.8897686)
