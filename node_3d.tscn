@@ -821,11 +821,11 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visible": true
 }, []]]]
 
-[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D" unique_id=1504895536]
+[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D" unique_id=1784492631]
 editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
 script = ExtResource("1_a202f")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D/MeshInstanceCSGEditor" unique_id=686654027]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D/MeshInstanceCSGEditor" unique_id=1497420765]
 mesh = SubResource("BoxMesh_i5arm")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=487654504 groups=["e"]]
@@ -984,16 +984,16 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visible": true
 }, []]]]
 
-[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D2" unique_id=1345683782]
+[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D2" unique_id=262514624]
 editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
 script = ExtResource("1_a202f")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=2093423503]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=100162783]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26981336, 0, 0.1331687)
 mesh = SubResource("BoxMesh_a0tk4")
 
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=2109583081]
-transform = Transform3D(0.63209265, -0.75331664, 0.18158357, 0.75331676, 0.5424709, -0.371805, 0.18158317, 0.37180528, 0.9103779, -0.006488383, 0.37523204, -0.0131464)
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=474432499]
+transform = Transform3D(0.63209265, -0.75331664, 0.18158355, 0.75331676, 0.5424709, -0.37180498, 0.18158315, 0.37180528, 0.9103779, -0.006488383, 0.37523204, -0.0131464)
 operation = 2
 mesh = SubResource("SphereMesh_noarx")
 
