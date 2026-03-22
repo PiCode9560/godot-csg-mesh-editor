@@ -4,6 +4,169 @@
 [ext_resource type="ArrayMesh" uid="uid://7xqaxd1syphj" path="res://new_array_mesh.tres" id="2_a0tk4"]
 [ext_resource type="PackedScene" uid="uid://dicm31oc2e0fj" path="res://node_3d2.tscn" id="2_noarx"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_i5arm"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_r3fl7"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("AACAPwAAAAAAAIA/AAAAP6uqKj8AAAA/q6qqPgAAAD+rqqo+AACAPwAAAAAAAIA/q6oqPwAAAD8AAIA/AAAAP6uqKj8AAIA/AAAAAAAAAD+rqqo+AAAAPwAAAAAAAIA/q6oqPwAAAD+rqio/AACAP6uqqj4AAIA/AAAAAAAAAACrqqo+AAAAAAAAAAAAAAA/AACAPwAAAD8AAIA/AACAP6uqKj8AAIA/q6oqPwAAAACrqio/AAAAP6uqqj4AAAA/q6qqPgAAAACrqqo+AAAAPwAAAAAAAAA/q6oqPwAAAAAAAIA/AAAAAKuqKj8AAAA/q6qqPgAAAD+rqio/AAAAP6uqqj4AAIA/q6qqPgAAAACrqio/AAAAAKuqqj4AAAA/"),
+"format": 34359738391,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA//////wAA/7//////AAD/v/////8AAP+/AAD/f/9//78AAP9//3//vwAA/3//f/+//38AAP///7//fwAA////v/9/AAD///+/AAD/f/9//78AAP9//3//vwAA/3//f/+//3///wAA/7//f///AAD/v/9///8AAP+//3//f////7//f/9/////v/9//3////+//38AAP///7//fwAA////v/9/AAD///+/////f/////////9//////////3///////3//f////7//f/9/////v/9//3////+//////wAA/7//////AAD/v/////8AAP+//3///wAA/7//f///AAD/v/9///8AAP+/////f/////////9//////////3//////")
+}]
+metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
+"Auto Translate": null,
+"CSGCombiner3D": null,
+"CSGShape3D": null,
+"Collision": null,
+"Editor Description": null,
+"Geometry": null,
+"GeometryInstance3D": null,
+"Global Illumination": null,
+"Node": null,
+"Node3D": null,
+"Physics Interpolation": null,
+"Process": null,
+"Sorting": null,
+"Thread Group": null,
+"Transform": null,
+"Visibility": null,
+"Visibility Range": null,
+"VisualInstance3D": null,
+"auto_translate_mode": 0,
+"basis": Basis(1, 0, 0, 0, 1, 0, 0, 0, 1),
+"calculate_tangents": true,
+"cast_shadow": 1,
+"collision_layer": 1,
+"collision_mask": 1,
+"collision_priority": 1.0,
+"custom_aabb": AABB(0, 0, 0, 0, 0, 0),
+"editor_description": "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it.",
+"extra_cull_margin": 0.0,
+"gi_lightmap_scale": 0,
+"gi_lightmap_texel_scale": 1.0,
+"gi_mode": 1,
+"ignore_occlusion_culling": false,
+"layers": 1,
+"lod_bias": 1.0,
+"material_overlay": null,
+"material_override": null,
+"meshinstance_csg_editing.gd": null,
+"multiplayer": Object(SceneMultiplayer,"root_path":NodePath("/root"),"auth_callback":Callable(),"auth_timeout":3.0,"allow_object_decoding":false,"refuse_new_connections":false,"server_relay":true,"max_sync_packet_size":1350,"max_delta_packet_size":65535,"script":null)
+,
+"name": &"MeshInstanceCSGEditor",
+"operation": 0,
+"physics_interpolation_mode": 0,
+"position": Vector3(0, 0, 0),
+"process_mode": 0,
+"process_physics_priority": 0,
+"process_priority": 0,
+"process_thread_group": 0,
+"process_thread_group_order": 0,
+"process_thread_messages": 0,
+"quaternion": Quaternion(0, 0, 0, 1),
+"rotation": Vector3(0, 0, 0),
+"rotation_degrees": Vector3(0, 0, 0),
+"rotation_edit_mode": 0,
+"rotation_order": 2,
+"scale": Vector3(1, 1, 1),
+"scene_file_path": "",
+"script": ExtResource("1_a202f"),
+"snap": 0.001,
+"sorting_offset": 0.0,
+"sorting_use_aabb_center": true,
+"top_level": false,
+"transform": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"transparency": 0.0,
+"unique_name_in_owner": false,
+"use_collision": false,
+"visibility_parent": "",
+"visibility_range_begin": 0.0,
+"visibility_range_begin_margin": 0.0,
+"visibility_range_end": 0.0,
+"visibility_range_end_margin": 0.0,
+"visibility_range_fade_mode": 0,
+"visible": true
+}, [["CSGMesh3D", {
+"Auto Translate": null,
+"CSGMesh3D": null,
+"CSGPrimitive3D": null,
+"CSGShape3D": null,
+"Collision": null,
+"Editor Description": null,
+"Geometry": null,
+"GeometryInstance3D": null,
+"Global Illumination": null,
+"Node": null,
+"Node3D": null,
+"Physics Interpolation": null,
+"Process": null,
+"Sorting": null,
+"Thread Group": null,
+"Transform": null,
+"Visibility": null,
+"Visibility Range": null,
+"VisualInstance3D": null,
+"auto_translate_mode": 0,
+"basis": Basis(1, 0, 0, 0, 1, 0, 0, 0, 1),
+"calculate_tangents": true,
+"cast_shadow": 1,
+"collision_layer": 1,
+"collision_mask": 1,
+"collision_priority": 1.0,
+"custom_aabb": AABB(0, 0, 0, 0, 0, 0),
+"editor_description": "",
+"extra_cull_margin": 0.0,
+"flip_faces": false,
+"gi_lightmap_scale": 0,
+"gi_lightmap_texel_scale": 1.0,
+"gi_mode": 1,
+"ignore_occlusion_culling": false,
+"layers": 1,
+"lod_bias": 1.0,
+"material": null,
+"material_overlay": null,
+"material_override": null,
+"mesh": SubResource("BoxMesh_i5arm"),
+"multiplayer": Object(SceneMultiplayer,"root_path":NodePath("/root"),"auth_callback":Callable(),"auth_timeout":3.0,"allow_object_decoding":false,"refuse_new_connections":false,"server_relay":true,"max_sync_packet_size":1350,"max_delta_packet_size":65535,"script":null)
+,
+"name": &"CSGMesh3D",
+"operation": 0,
+"physics_interpolation_mode": 0,
+"position": Vector3(0, 0, 0),
+"process_mode": 0,
+"process_physics_priority": 0,
+"process_priority": 0,
+"process_thread_group": 0,
+"process_thread_group_order": 0,
+"process_thread_messages": 0,
+"quaternion": Quaternion(0, 0, 0, 1),
+"rotation": Vector3(0, 0, 0),
+"rotation_degrees": Vector3(0, 0, 0),
+"rotation_edit_mode": 0,
+"rotation_order": 2,
+"scale": Vector3(1, 1, 1),
+"scene_file_path": "",
+"script": null,
+"snap": 0.001,
+"sorting_offset": 0.0,
+"sorting_use_aabb_center": true,
+"top_level": false,
+"transform": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"transparency": 0.0,
+"unique_name_in_owner": false,
+"use_collision": false,
+"visibility_parent": "",
+"visibility_range_begin": 0.0,
+"visibility_range_begin_margin": 0.0,
+"visibility_range_end": 0.0,
+"visibility_range_end_margin": 0.0,
+"visibility_range_fade_mode": 0,
+"visible": true
+}, []]]]
+
 [sub_resource type="BoxMesh" id="BoxMesh_noarx"]
 size = Vector3(1.64, 1.725, 1)
 
@@ -28,10 +191,6 @@ _surfaces = [{
 "vertex_count": 36,
 "vertex_data": PackedByteArray("AAAAvwAAAD8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAC/AAAAvwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAL8AAAA/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAA/AAAAvwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA//////wAA/7//////AAD/v/////8AAP+/AAD/f/9//78AAP9//3//vwAA/3//f/+//38AAP///7//fwAA////v/9/AAD///+/AAD/f/9//78AAP9//3//vwAA/3//f/+//3///wAA/7//f///AAD/v/9///8AAP+//3//f////7//f/9/////v/9//3////+//38AAP///7//fwAA////v/9/AAD///+/////f/////////9//////////3///////3//f////7//f/9/////v/9//3////+//////wAA/7//////AAD/v/////8AAP+//3///wAA/7//f///AAD/v/9///8AAP+/////f/////////9//////////3//////")
 }]
-
-[sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_noarx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_r3fl7"]
 
@@ -295,6 +454,7 @@ ring_segments = 16
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=1817370694 groups=["e"]]
 transform = Transform3D(0.21725091, 0.49444258, 0.8416226, -0.12358125, 0.8692103, -0.47874957, -0.9682612, 0, 0.24994056, 1.2772305, 0, 1.3614318)
+mesh = SubResource("ArrayMesh_r3fl7")
 metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "Auto Translate": null,
 "CSGCombiner3D": null,
@@ -657,6 +817,13 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visible": true
 }, []]]]
 
+[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D" unique_id=1607574243]
+editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
+script = ExtResource("1_a202f")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D/MeshInstanceCSGEditor" unique_id=784566446]
+mesh = SubResource("BoxMesh_i5arm")
+
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=487654504 groups=["e"]]
 transform = Transform3D(0.896726, 0, -0.44258606, 0, 1, 0, 0.44258606, 0, 0.896726, 0.89731085, 0.40643835, -3.3504832)
 mesh = ExtResource("2_a0tk4")
@@ -813,19 +980,6 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visible": true
 }, []]]]
 
-[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D2" unique_id=1268284374]
-editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
-script = ExtResource("1_a202f")
-
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=790264337]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26981336, 0, 0.1331687)
-mesh = SubResource("BoxMesh_a0tk4")
-
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D/MeshInstance3D2/MeshInstanceCSGEditor" unique_id=476122808]
-transform = Transform3D(0.63209265, -0.7533168, 0.18158332, 0.75331676, 0.5424709, -0.371805, 0.18158336, 0.37180507, 0.91037804, -0.006488383, 0.37523204, -0.0131464)
-operation = 2
-mesh = SubResource("SphereMesh_noarx")
-
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D" unique_id=223806027 groups=["e"]]
 transform = Transform3D(0.896726, 0, -0.44258606, 0, 1, 0, 0.44258606, 0, 0.896726, 0.89731085, 0.40643835, -5.8897686)
 mesh = SubResource("ArrayMesh_a0tk4")
@@ -981,6 +1135,18 @@ metadata/MeshInstanceCSGEditorTree = ["CSGCombiner3D", {
 "visibility_range_fade_mode": 0,
 "visible": true
 }, []]]]
+
+[node name="MeshInstanceCSGEditor" type="CSGCombiner3D" parent="Node3D/MeshInstance3D3" unique_id=1075036605]
+editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
+script = ExtResource("1_a202f")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Node3D/MeshInstance3D3/MeshInstanceCSGEditor" unique_id=511741740]
+mesh = SubResource("BoxMesh_r3fl7")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D/MeshInstance3D3/MeshInstanceCSGEditor" unique_id=166366529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15102935, 0, -0.3060012)
+operation = 2
+mesh = SubResource("BoxMesh_r3fl7")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D" unique_id=42644004]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5520763, 0, 2.7809708)
