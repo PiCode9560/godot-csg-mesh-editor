@@ -10,7 +10,8 @@ var SceneTreeEditor_tree: Tree
 var SceneTreeEditor: Control
 
 var enable_editing_button: Button
-var enable_editing_menu_button: MenuButton
+var disable_editing_menu_button: MenuButton
+var disable_editing_menu_button_popup: PopupMenu
 var editing := false
 
 
@@ -36,17 +37,17 @@ func _enter_tree() -> void:
 	enable_editing_button.pressed.connect(_on_enable_editing_button_pressed)
 	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, enable_editing_button)
 
-	enable_editing_menu_button = MenuButton.new()
-	enable_editing_menu_button.text = "Apply CSG changes to ..."
-	enable_editing_menu_button.icon = EditorInterface.get_editor_theme().get_icon("CSGBox3D", "EditorIcons")
-	enable_editing_menu_button.flat = true
+	disable_editing_menu_button = MenuButton.new()
+	disable_editing_menu_button.text = "Apply CSG changes to ..."
+	disable_editing_menu_button.icon = EditorInterface.get_editor_theme().get_icon("CSGBox3D", "EditorIcons")
+	disable_editing_menu_button.flat = true
 
-	var popup := enable_editing_menu_button.get_popup()
-	popup.add_item("...to current mesh")
-	popup.add_item("...to new mesh")
-	popup.id_pressed.connect(_on_popup_id_pressed)
+	disable_editing_menu_button_popup = disable_editing_menu_button.get_popup()
+	disable_editing_menu_button_popup.add_item("...to current mesh")
+	disable_editing_menu_button_popup.add_item("...to new mesh")
+	disable_editing_menu_button_popup.id_pressed.connect(_on_popup_id_pressed)
 
-	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, enable_editing_menu_button)
+	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, disable_editing_menu_button)
 
 	_get_scene_tree()
 
@@ -56,15 +57,15 @@ func _exit_tree() -> void:
 	remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, enable_editing_button)
 	enable_editing_button.queue_free()
 
-	remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, enable_editing_menu_button)
-	enable_editing_menu_button.queue_free()
+	remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, disable_editing_menu_button)
+	disable_editing_menu_button.queue_free()
 
 
 func _on_editor_selection_selection_changed() -> void:
 	selected_mesh_instances = EditorInterface.get_selection().get_selected_nodes().filter(func(node:Node): return node.get_class() == "MeshInstance3D")
 	if selected_mesh_instances.is_empty():
 		enable_editing_button.visible = false
-		enable_editing_menu_button.visible = false
+		disable_editing_menu_button.visible = false
 		return
 
 
@@ -80,10 +81,7 @@ func _on_enable_editing_button_pressed() -> void:
 		_update_mesh_instance_editing(mesh_instance)
 
 
-	if editing:
-		enable_editing_button.text = "Apply CSG changes"
-	else:
-		enable_editing_button.text = "Edit mesh as CSG"
+	_update_buttons()
 
 	for selected_mesh_inst:Node in current_selected_mesh_instance_list:
 		EditorInterface.get_selection().add_node.call_deferred(selected_mesh_inst)
@@ -97,7 +95,7 @@ func _update_mesh_instance_editing(mesh_instance: MeshInstance3D) -> void:
 	if editing:
 		if not _is_mesh_instance_editing(mesh_instance):
 			var csg_combiner:MeshInstanceCSGEditor
-			if not mesh_instance.has_meta(META_EDIT_TREE):
+			if not mesh_instance.mesh.has_meta(META_EDIT_TREE):
 				csg_combiner = MeshInstanceCSGEditor.new()
 				mesh_instance.add_child(csg_combiner)
 				csg_combiner.name = CSG_ROOT_NAME
@@ -111,11 +109,13 @@ func _update_mesh_instance_editing(mesh_instance: MeshInstance3D) -> void:
 					csg_mesh.mesh = mesh_instance.mesh
 					csg_mesh.owner = mesh_instance.owner
 			else:
-				var edit_tree = mesh_instance.get_meta(META_EDIT_TREE)
+				var edit_tree = mesh_instance.mesh.get_meta(META_EDIT_TREE)
 				csg_combiner = _add_node_from_data_tree(edit_tree, mesh_instance)
 				csg_combiner.name = CSG_ROOT_NAME
 
 			csg_combiner.mesh_resource_path = mesh_instance.mesh.resource_path
+			csg_combiner.current_mesh = mesh_instance.mesh
+
 
 		mesh_instance.mesh = null
 		if not mesh_instance.child_exiting_tree.is_connected(_on_mesh_instance_child_exiting_tree):
@@ -132,22 +132,34 @@ func _update_mesh_instance_disabled_editing(mesh_instance:MeshInstance3D, new_me
 			if _is_mesh_instance_editing(mesh_instance):
 				_apply_csg_child_to_mesh_instance(mesh_instance, true, new_mesh)
 
-func _apply_csg_child_to_mesh_instance(mesh_instance: MeshInstance3D, remove_csg := true, new_mesh := true) -> void:
+func _apply_csg_child_to_mesh_instance(mesh_instance: MeshInstance3D, remove_csg := true, is_new_mesh := true) -> void:
 	if mesh_instance.child_exiting_tree.is_connected(_on_mesh_instance_child_exiting_tree):
 		mesh_instance.child_exiting_tree.disconnect(_on_mesh_instance_child_exiting_tree)
 
 	var csg_combiner:MeshInstanceCSGEditor = mesh_instance.get_node(CSG_ROOT_NAME)
-	mesh_instance.mesh = csg_combiner.get_meshes()[1]
-	if not new_mesh:
-		mesh_instance.mesh.resource_path = csg_combiner.mesh_resource_path
+	var new_mesh:ArrayMesh = csg_combiner.get_meshes()[1]
+	var current_mesh := csg_combiner.current_mesh
 
+	if not is_new_mesh and _can_modify_mesh(current_mesh):
+		var array_mesh := current_mesh as ArrayMesh
+		array_mesh.clear_surfaces()
+		for i in new_mesh.get_surface_count():
+			array_mesh.add_surface_from_arrays(new_mesh.surface_get_primitive_type(i), new_mesh.surface_get_arrays(i))
+		mesh_instance.mesh = array_mesh
+
+	else: # new mesh
+		mesh_instance.mesh = new_mesh
 	csg_combiner.mesh_resource_path = ""
+	csg_combiner.current_mesh = null
 
-	mesh_instance.set_meta(META_EDIT_TREE, _get_node_data_tree(csg_combiner))
+	mesh_instance.mesh.set_meta(META_EDIT_TREE, _get_node_data_tree(csg_combiner))
 
 	if remove_csg:
 		csg_combiner.queue_free()
 	#mesh_instance.set_meta(META_EDITING, editing)
+
+func _can_modify_mesh(mesh:Mesh) -> bool:
+	return mesh is ArrayMesh
 
 func _add_node_from_data_tree(edit_tree:Array, parent:Node) -> Node:
 	var node_class:String = edit_tree[0]
@@ -216,21 +228,23 @@ func _update_buttons() -> void:
 	if editing:
 		enable_editing_button.text = "Apply CSG changes"
 		var csg_combiner:MeshInstanceCSGEditor = selected_mesh_instances[0].get_node(CSG_ROOT_NAME)
+		enable_editing_button.visible = false
+		disable_editing_menu_button.visible = true
 		if csg_combiner.mesh_resource_path == "":
-			enable_editing_button.visible = true
-			enable_editing_menu_button.visible = false
+			disable_editing_menu_button_popup.set_item_disabled(0, true)
+			disable_editing_menu_button_popup.set_item_text(0,"...to current mesh")
 		else:
-			enable_editing_button.visible = false
-			enable_editing_menu_button.visible = true
-			enable_editing_menu_button.get_popup().set_item_text(0,"...to current mesh ({path})".format({"path" : csg_combiner.mesh_resource_path}))
+			disable_editing_menu_button_popup.set_item_disabled(0, false)
+			disable_editing_menu_button_popup.set_item_text(0,"...to current mesh ({path})".format({"path" : csg_combiner.mesh_resource_path}))
 	else:
 		enable_editing_button.text = "Edit mesh as CSG"
 		enable_editing_button.visible = true
-		enable_editing_menu_button.visible = false
+		disable_editing_menu_button.visible = false
 
 #region Scene tree icon display.
 
 func _update_scene_tree_editor() -> void:
+	return
 	print("NODE CHANGED")
 	await get_tree().process_frame
 	var scene_root := EditorInterface.get_edited_scene_root()
@@ -264,7 +278,7 @@ func update_mesh_instance_scene_tree_item(mesh_instance: MeshInstance3D) -> void
 	image.resize(size.x ,size.y)
 	texture = ImageTexture.create_from_image(image)
 
-	if mesh_instance.has_meta(META_EDIT_TREE):
+	if mesh_instance.mesh and mesh_instance.mesh.has_meta(META_EDIT_TREE):
 		if tree_item.get_button_by_id(0, 389419) == -1:
 			var buttons := []
 			for i in tree_item.get_button_count(0):
