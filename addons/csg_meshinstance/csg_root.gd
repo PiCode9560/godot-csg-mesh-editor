@@ -1,5 +1,5 @@
 @tool
-class_name MeshInstanceCSGEditor
+class_name CSGMeshEditor
 extends CSGCombiner3D
 
 func _physics_process(delta: float) -> void:

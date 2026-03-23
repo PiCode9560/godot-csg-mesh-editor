@@ -1,8 +1,8 @@
 @tool
 extends EditorPlugin
 
-const META_EDIT_TREE := &"MeshInstanceCSGEditorTree"
-const CSG_ROOT_NAME := "MeshInstanceCSGEditor"
+const META_EDIT_TREE := &"CSGMeshEditorTree"
+const CSG_ROOT_NAME := "CSGMeshEditor"
 
 var editing_menu_button: MenuButton
 var editing_menu_button_popup: PopupMenu
@@ -91,12 +91,13 @@ func on_editing_menu_button_popup_pressed(id: int) -> void:
 			for mesh_instance in selected_mesh_instances:
 				_disable_mesh_instance_editing(mesh_instance, false)
 
+	await get_tree().process_frame
 	_update_buttons()
 
 
 ## On editing mesh instance child exiting tree.
 func _on_mesh_instance_child_exiting_tree(child: Node, mesh_instance:MeshInstance3D) -> void:
-	if child is MeshInstanceCSGEditor:
+	if child is CSGMeshEditor:
 
 		# Reset meshinstance visibility.
 		RenderingServer.instance_geometry_set_visibility_range(mesh_instance.get_instance(),
@@ -111,18 +112,18 @@ func _on_mesh_instance_child_exiting_tree(child: Node, mesh_instance:MeshInstanc
 		await child.tree_exited
 		_update_buttons()
 
-		print("MeshInstanceCSGEditor exited")
+		print("CSGMeshEditor exited")
 
 
 ## enable mesh instance editing.
 func _enable_mesh_instance_editing(mesh_instance: MeshInstance3D) -> void:
 	if not _is_mesh_instance_editing(mesh_instance) and mesh_instance.mesh != null:
-		var csg_combiner:MeshInstanceCSGEditor
+		var csg_combiner:CSGMeshEditor
 		if not mesh_instance.mesh.has_meta(META_EDIT_TREE):
-			csg_combiner = MeshInstanceCSGEditor.new()
+			csg_combiner = CSGMeshEditor.new()
 			mesh_instance.add_child(csg_combiner)
 			csg_combiner.name = CSG_ROOT_NAME
-			csg_combiner.editor_description = "MeshInstanceCSGEditor: edit the csg then apply it from to the MeshInstance from it."
+			csg_combiner.editor_description = "CSGMeshEditor: edit the csg then apply it from to the MeshInstance from it."
 			csg_combiner.owner = mesh_instance.owner
 			#csg_combiner.set_script(MeshInstanceCSGEditing)
 
@@ -158,7 +159,7 @@ func _disable_mesh_instance_editing(mesh_instance:MeshInstance3D, apply_mesh := 
 
 			_apply_csg_child_to_mesh_instance(mesh_instance, is_new_mesh)
 
-		var csg_combiner:MeshInstanceCSGEditor = mesh_instance.get_node(CSG_ROOT_NAME)
+		var csg_combiner:CSGMeshEditor = mesh_instance.get_node(CSG_ROOT_NAME)
 		csg_combiner.queue_free()
 
 
@@ -169,7 +170,7 @@ func _apply_csg_child_to_mesh_instance(mesh_instance: MeshInstance3D, is_new_mes
 		print_debug("Error: Mesh instance is not in editing mode.")
 		return
 
-	var csg_combiner:MeshInstanceCSGEditor = mesh_instance.get_node(CSG_ROOT_NAME)
+	var csg_combiner:CSGMeshEditor = mesh_instance.get_node(CSG_ROOT_NAME)
 	var new_mesh:ArrayMesh = csg_combiner.get_meshes()[1]
 	var current_mesh := mesh_instance.mesh
 
@@ -255,7 +256,7 @@ func _update_buttons() -> void:
 
 	if not editing_mesh_instances.is_empty():
 		var not_null_mesh_mesh_instances := editing_mesh_instances.filter(func(mesh_int:MeshInstance3D): return mesh_int.mesh != null)
-		var all_mesh_cannot_modify := not_null_mesh_mesh_instances.filter(func(mesh_int:MeshInstance3D): return not _can_modify_mesh(mesh_int.mesh))
+		var all_mesh_cannot_modify := not_null_mesh_mesh_instances.all(func(mesh_int:MeshInstance3D): return not _can_modify_mesh(mesh_int.mesh))
 
 		var plural_mesh := "mesh" if editing_mesh_instances.size() == 1 else "meshes"
 
