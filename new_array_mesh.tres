@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://7xqaxd1syphj"]
 
-[ext_resource type="Script" uid="uid://c0fdrs8ye6pv8" path="res://addons/csg_meshinstance/csg_root.gd" id="1_boxtw"]
+[ext_resource type="Script" uid="uid://c0fdrs8ye6pv8" path="res://addons/csg_mesh_editor/csg_root.gd" id="1_boxtw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
 

@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bbjxuine50di1"]
 
-[ext_resource type="Script" uid="uid://c0fdrs8ye6pv8" path="res://addons/csg_meshinstance/csg_root.gd" id="1_a202f"]
+[ext_resource type="Script" uid="uid://c0fdrs8ye6pv8" path="res://addons/csg_mesh_editor/csg_root.gd" id="1_a202f"]
 [ext_resource type="ArrayMesh" uid="uid://7xqaxd1syphj" path="res://new_array_mesh.tres" id="2_a0tk4"]
 [ext_resource type="PackedScene" uid="uid://dicm31oc2e0fj" path="res://node_3d2.tscn" id="2_noarx"]
 [ext_resource type="ArrayMesh" uid="uid://dceueyyyryb6o" path="res://beveled_cube.obj" id="2_r3fl7"]
