@@ -3,17 +3,17 @@ extends EditorPlugin
 
 const META_EDIT_TREE := &"CSGMeshEditorTree"
 const CSG_ROOT_NAME := "CSGMeshEditor"
+const CsgMeshEditor = preload("uid://dkclh8ek1xgk")
 
 var editing_menu_button: MenuButton
 var editing_menu_button_popup: PopupMenu
 
 var selected_mesh_instances: Array[Node]
 
+var editor_undo_redo_manager : EditorUndoRedoManager
 
 ## On plugin entered tree.
 func _enter_tree() -> void:
-	EditorInterface.get_selection().selection_changed.connect(_on_editor_selection_selection_changed)
-
 	editing_menu_button = MenuButton.new()
 	editing_menu_button.text = "CSGMeshEditor"
 	editing_menu_button.icon = EditorInterface.get_editor_theme().get_icon("CSGBox3D", "EditorIcons")
@@ -32,6 +32,11 @@ func _enter_tree() -> void:
 	resource_saved.connect(_on_resource_saved)
 	scene_saved.connect(_on_scene_saved)
 
+	editor_undo_redo_manager = get_undo_redo()
+	editor_undo_redo_manager.version_changed.connect(_on_editor_undo_redo_manager_version_changed)
+
+	EditorInterface.get_selection().selection_changed.connect(_on_editor_selection_selection_changed)
+	_on_editor_selection_selection_changed()
 
 ## On plugin exited tree.
 func _exit_tree() -> void:
@@ -53,6 +58,10 @@ func _on_editor_selection_selection_changed() -> void:
 func _on_resource_saved(resource: Resource) -> void:
 	_update_buttons()
 
+## On EditorUndoRedoManager.version_changed() emits.
+func _on_editor_undo_redo_manager_version_changed() -> void:
+	_update_buttons()
+
 ## On scene saved.
 func _on_scene_saved(filepath: String) -> void:
 	_update_buttons()
@@ -60,7 +69,6 @@ func _on_scene_saved(filepath: String) -> void:
 
 ## On editing menu options selected.
 func on_editing_menu_button_popup_pressed(id: int) -> void:
-	print("PRESSED: ",id)
 	match id:
 		0: # enable editing.
 			var is_mesh_null := true
@@ -74,22 +82,32 @@ func on_editing_menu_button_popup_pressed(id: int) -> void:
 
 			var current_selected_mesh_instance_list := selected_mesh_instances.duplicate()
 
+			editor_undo_redo_manager.create_action("Edit mesh as CSG", UndoRedo.MERGE_DISABLE, EditorInterface.get_edited_scene_root())
+
 			for mesh_instance in selected_mesh_instances:
 				_enable_mesh_instance_editing(mesh_instance)
+
+			editor_undo_redo_manager.commit_action(false)
 
 			# Selection messed up. Need to be reselected.
 			for selected_mesh_inst:Node in current_selected_mesh_instance_list:
 				EditorInterface.get_selection().add_node.call_deferred(selected_mesh_inst)
 
 		2: # Apply CSG as current mesh.
+			editor_undo_redo_manager.create_action("Apply CSG to current mesh(es)", UndoRedo.MERGE_DISABLE, EditorInterface.get_edited_scene_root())
 			for mesh_instance in selected_mesh_instances:
 				_disable_mesh_instance_editing(mesh_instance, true, false)
+			editor_undo_redo_manager.commit_action(false)
 		3: # Apply CSG as new mesh.
+			editor_undo_redo_manager.create_action("Apply CSG to new mesh(es)", UndoRedo.MERGE_DISABLE, EditorInterface.get_edited_scene_root())
 			for mesh_instance in selected_mesh_instances:
 				_disable_mesh_instance_editing(mesh_instance, true, true)
+			editor_undo_redo_manager.commit_action(false)
 		5: # Discard CSG changes.
+			editor_undo_redo_manager.create_action("Discard CSG changes", UndoRedo.MERGE_DISABLE, EditorInterface.get_edited_scene_root())
 			for mesh_instance in selected_mesh_instances:
 				_disable_mesh_instance_editing(mesh_instance, false)
+			editor_undo_redo_manager.commit_action(false)
 
 	await get_tree().process_frame
 	_update_buttons()
@@ -100,19 +118,18 @@ func _on_mesh_instance_child_exiting_tree(child: Node, mesh_instance:MeshInstanc
 	if child is CSGMeshEditor:
 
 		# Reset meshinstance visibility.
-		RenderingServer.instance_geometry_set_visibility_range(mesh_instance.get_instance(),
-															   mesh_instance.visibility_range_begin,
-															   mesh_instance.visibility_range_end,
-															   mesh_instance.visibility_range_begin_margin,
-															   mesh_instance.visibility_range_end_margin,
-															   int(mesh_instance.visibility_range_fade_mode))
+		#editor_undo_redo_manager.add_undo_method(RenderingServer, &"instance_geometry_set_visibility_range", mesh_instance.get_instance(), 99999, 0, 0, 0, RenderingServer.VisibilityRangeFadeMode.VISIBILITY_RANGE_FADE_DISABLED)
+		#RenderingServer.instance_geometry_set_visibility_range(mesh_instance.get_instance(),
+															   #mesh_instance.visibility_range_begin,
+															   #mesh_instance.visibility_range_end,
+															   #mesh_instance.visibility_range_begin_margin,
+															   #mesh_instance.visibility_range_end_margin,
+															   #int(mesh_instance.visibility_range_fade_mode))
 
 		mesh_instance.child_exiting_tree.disconnect(_on_mesh_instance_child_exiting_tree)
 
 		await child.tree_exited
 		_update_buttons()
-
-		print("CSGMeshEditor exited")
 
 
 ## enable mesh instance editing.
@@ -123,7 +140,7 @@ func _enable_mesh_instance_editing(mesh_instance: MeshInstance3D) -> void:
 			csg_combiner = CSGMeshEditor.new()
 			mesh_instance.add_child(csg_combiner)
 			csg_combiner.name = CSG_ROOT_NAME
-			csg_combiner.editor_description = "CSGMeshEditor: edit the csg then apply it from to the MeshInstance from it."
+			csg_combiner.editor_description = "CSGMeshEditor: edit the csg then apply it to the parent MeshInstance from it."
 			csg_combiner.owner = mesh_instance.owner
 			#csg_combiner.set_script(MeshInstanceCSGEditing)
 
@@ -138,8 +155,21 @@ func _enable_mesh_instance_editing(mesh_instance: MeshInstance3D) -> void:
 			csg_combiner.name = CSG_ROOT_NAME
 
 
+
+		#editor_undo_redo_manager.add_do_reference(csg_combiner)
+		editor_undo_redo_manager.add_do_method(CsgMeshEditor, &"_undo_redo_add_csg_root_to_mesh_instance", mesh_instance, csg_combiner)
+		editor_undo_redo_manager.add_undo_method(mesh_instance, &"remove_child", csg_combiner)
+
+
 	# Make meshinstance invisible when editing.
 	RenderingServer.instance_geometry_set_visibility_range(mesh_instance.get_instance(), 99999, 0, 0, 0, RenderingServer.VisibilityRangeFadeMode.VISIBILITY_RANGE_FADE_DISABLED)
+	editor_undo_redo_manager.add_do_method(RenderingServer, &"instance_geometry_set_visibility_range", mesh_instance.get_instance(), 99999, 0, 0, 0, RenderingServer.VisibilityRangeFadeMode.VISIBILITY_RANGE_FADE_DISABLED)
+	editor_undo_redo_manager.add_undo_method(RenderingServer, &"instance_geometry_set_visibility_range", mesh_instance.get_instance(),
+																										 mesh_instance.visibility_range_begin,
+																										 mesh_instance.visibility_range_end,
+																										 mesh_instance.visibility_range_begin_margin,
+																										 mesh_instance.visibility_range_end_margin,
+																										 int(mesh_instance.visibility_range_fade_mode))
 
 	if not mesh_instance.child_exiting_tree.is_connected(_on_mesh_instance_child_exiting_tree):
 		mesh_instance.child_exiting_tree.connect(_on_mesh_instance_child_exiting_tree.bind(mesh_instance))
@@ -160,7 +190,21 @@ func _disable_mesh_instance_editing(mesh_instance:MeshInstance3D, apply_mesh := 
 			_apply_csg_child_to_mesh_instance(mesh_instance, is_new_mesh)
 
 		var csg_combiner:CSGMeshEditor = mesh_instance.get_node(CSG_ROOT_NAME)
-		csg_combiner.queue_free()
+		editor_undo_redo_manager.add_undo_reference(csg_combiner)
+		#editor_undo_redo_manager.add_undo_method(self, &"_undo_redo_add_csg_root_to_mesh_instance", mesh_instance, csg_combiner)
+		editor_undo_redo_manager.add_undo_method(CsgMeshEditor, &"_undo_redo_add_csg_root_to_mesh_instance", mesh_instance, csg_combiner)
+		editor_undo_redo_manager.add_do_method(mesh_instance, &"remove_child", csg_combiner)
+		mesh_instance.remove_child(csg_combiner)
+
+
+		editor_undo_redo_manager.add_undo_method(RenderingServer, &"instance_geometry_set_visibility_range", mesh_instance.get_instance(), 99999, 0, 0, 0, RenderingServer.VisibilityRangeFadeMode.VISIBILITY_RANGE_FADE_DISABLED)
+		editor_undo_redo_manager.add_do_method(RenderingServer, &"instance_geometry_set_visibility_range", mesh_instance.get_instance(), mesh_instance.visibility_range_begin, mesh_instance.visibility_range_end, mesh_instance.visibility_range_begin_margin, mesh_instance.visibility_range_end_margin, int(mesh_instance.visibility_range_fade_mode))
+		RenderingServer.instance_geometry_set_visibility_range(mesh_instance.get_instance(),
+															   mesh_instance.visibility_range_begin,
+															   mesh_instance.visibility_range_end,
+															   mesh_instance.visibility_range_begin_margin,
+															   mesh_instance.visibility_range_end_margin,
+															   int(mesh_instance.visibility_range_fade_mode))
 
 
 ## Apply the child CSG mesh into the mesh instance mesh.
@@ -172,20 +216,30 @@ func _apply_csg_child_to_mesh_instance(mesh_instance: MeshInstance3D, is_new_mes
 
 	var csg_combiner:CSGMeshEditor = mesh_instance.get_node(CSG_ROOT_NAME)
 	var new_mesh:ArrayMesh = csg_combiner.get_meshes()[1]
-	var current_mesh := mesh_instance.mesh
 
 	if not is_new_mesh:
-		if _can_modify_mesh(current_mesh):
-			var array_mesh := current_mesh as ArrayMesh
+		if _can_modify_mesh(mesh_instance.mesh):
+			var array_mesh := mesh_instance.mesh as ArrayMesh
+			editor_undo_redo_manager.add_undo_method(CsgMeshEditor, &"_undo_redo_set_mesh_surfaces_from_another_mesh", array_mesh, array_mesh.duplicate())
+			editor_undo_redo_manager.add_do_method(CsgMeshEditor, &"_undo_redo_set_mesh_surfaces_from_another_mesh", array_mesh, new_mesh)
 			array_mesh.clear_surfaces()
 			for i in new_mesh.get_surface_count():
 				array_mesh.add_surface_from_arrays(new_mesh.surface_get_primitive_type(i), new_mesh.surface_get_arrays(i))
-			mesh_instance.mesh = array_mesh
+
 
 	else: # new mesh
+		editor_undo_redo_manager.add_undo_property(mesh_instance, &"mesh", mesh_instance.mesh)
+		editor_undo_redo_manager.add_do_property(mesh_instance, &"mesh", new_mesh)
 		mesh_instance.mesh = new_mesh
 
-	mesh_instance.mesh.set_meta(META_EDIT_TREE, _get_node_data_tree(csg_combiner))
+	var data_tree := _get_node_data_tree(csg_combiner)
+	editor_undo_redo_manager.add_do_method(mesh_instance.mesh, &"set_meta", META_EDIT_TREE, data_tree)
+	if mesh_instance.mesh.has_meta(META_EDIT_TREE):
+		editor_undo_redo_manager.add_undo_method(mesh_instance.mesh, &"set_meta", META_EDIT_TREE, mesh_instance.mesh.get_meta(META_EDIT_TREE))
+	else:
+		editor_undo_redo_manager.add_undo_method(mesh_instance.mesh, &"remove_meta", META_EDIT_TREE)
+	mesh_instance.mesh.set_meta(META_EDIT_TREE, data_tree)
+
 
 
 ## create load the CSG nodes into the scene from stored data.
@@ -318,6 +372,25 @@ func _update_buttons() -> void:
 	else:
 		editing_menu_button_popup.set_item_text(0,"Edit mesh as CSG")
 		editing_menu_button_popup.set_item_disabled(0, true)
+
+#region Undo redo
+
+#func _undo_enable_mesh_instance_editing(mesh_instance: MeshInstance3D, csg_combiner: CSGMeshEditor) -> void:
+	##var csg_combiner:CSGMeshEditor = mesh_instance.get_node(CSG_ROOT_NAME)
+	#mesh_instance.remove_child(csg_combiner)
+
+static func _undo_redo_add_csg_root_to_mesh_instance(mesh_instance: MeshInstance3D, csg_combiner: CSGMeshEditor) -> void:
+	mesh_instance.add_child(csg_combiner)
+	csg_combiner.owner = mesh_instance.owner
+	for child in csg_combiner.find_children("*", "", true, false):
+		child.owner = mesh_instance.owner
+
+static func _undo_redo_set_mesh_surfaces_from_another_mesh(mesh1: ArrayMesh, mesh2: ArrayMesh) -> void:
+	mesh1.clear_surfaces()
+	for i in mesh2.get_surface_count():
+		mesh1.add_surface_from_arrays(mesh2.surface_get_primitive_type(i), mesh2.surface_get_arrays(i))
+
+#endregion
 
 
 ## Whether a mesh instance is in editing mode.

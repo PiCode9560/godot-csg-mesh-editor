@@ -16,4 +16,4 @@ config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/csg_meshinstance/plugin.cfg")
+enabled=PackedStringArray("res://addons/csg_mesh_editor/plugin.cfg")
