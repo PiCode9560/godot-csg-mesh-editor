@@ -29,6 +29,9 @@ func _enter_tree() -> void:
 	editing_menu_button_popup.id_pressed.connect(on_editing_menu_button_popup_pressed)
 	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, editing_menu_button)
 
+	resource_saved.connect(_on_resource_saved)
+	scene_saved.connect(_on_scene_saved)
+
 
 ## On plugin exited tree.
 func _exit_tree() -> void:
@@ -43,6 +46,15 @@ func _exit_tree() -> void:
 func _on_editor_selection_selection_changed() -> void:
 	selected_mesh_instances = EditorInterface.get_selection().get_selected_nodes().filter(func(node:Node): return node.get_class() == "MeshInstance3D")
 
+	_update_buttons()
+
+
+## On resource saved.
+func _on_resource_saved(resource: Resource) -> void:
+	_update_buttons()
+
+## On scene saved.
+func _on_scene_saved(filepath: String) -> void:
 	_update_buttons()
 
 
@@ -242,13 +254,12 @@ func _update_buttons() -> void:
 
 
 	if not editing_mesh_instances.is_empty():
-		var all_mesh_null := editing_mesh_instances.all(func(mesh_int:MeshInstance3D): return mesh_int.mesh == null)
-		var all_mesh_cannot_modify := editing_mesh_instances.all(func(mesh_int:MeshInstance3D): return not _can_modify_mesh(mesh_int.mesh))
-		var all_mesh_res_path_empty := editing_mesh_instances.all(func(mesh_int:MeshInstance3D): return mesh_int.mesh.resource_path == "")
+		var not_null_mesh_mesh_instances := editing_mesh_instances.filter(func(mesh_int:MeshInstance3D): return mesh_int.mesh != null)
+		var all_mesh_cannot_modify := not_null_mesh_mesh_instances.filter(func(mesh_int:MeshInstance3D): return not _can_modify_mesh(mesh_int.mesh))
 
 		var plural_mesh := "mesh" if editing_mesh_instances.size() == 1 else "meshes"
 
-		if all_mesh_null:
+		if not_null_mesh_mesh_instances.is_empty():
 			editing_menu_button_popup.set_item_disabled(2, true)
 			editing_menu_button_popup.set_item_text(2,"Apply CSG to current {mesh} (Current {mesh} is null)".format({"mesh": plural_mesh}))
 		elif all_mesh_cannot_modify:
@@ -266,15 +277,16 @@ func _update_buttons() -> void:
 			else:
 				var failed_msg := _get_uncapitalized_string(_get_modify_mesh_failed_msg(editing_mesh_instances[0].mesh))
 				editing_menu_button_popup.set_item_text(2,"Apply CSG to current {mesh} ({failed_msg})".format({"mesh": plural_mesh, "failed_msg": failed_msg}))
-		elif all_mesh_res_path_empty:
-			editing_menu_button_popup.set_item_disabled(2, true)
-			editing_menu_button_popup.set_item_text(2,"Apply CSG to current {mesh}".format({"mesh": plural_mesh}))
 		else:
 			editing_menu_button_popup.set_item_disabled(2, false)
 			if editing_mesh_instances.size() > 1:
-				editing_menu_button_popup.set_item_text(2,"Apply CSG to current meshes")
+				var can_apply_to_current_mesh_mesh_instances := editing_mesh_instances.filter(func(mesh_inst: MeshInstance3D): return _can_modify_mesh(mesh_inst.mesh))
+				editing_menu_button_popup.set_item_text(2,"Apply CSG to current meshes ({mesh_count})".format({"mesh_count": can_apply_to_current_mesh_mesh_instances.size()}))
 			else:
-				editing_menu_button_popup.set_item_text(2,"Apply CSG to current mesh ({path})".format({"path" : editing_mesh_instances[0].mesh.resource_path}))
+				if editing_mesh_instances[0].mesh.resource_path == "":
+					editing_menu_button_popup.set_item_text(2,"Apply CSG to current mesh")
+				else:
+					editing_menu_button_popup.set_item_text(2,"Apply CSG to current mesh ({path})".format({"path" : editing_mesh_instances[0].mesh.resource_path}))
 
 		editing_menu_button_popup.set_item_disabled(3, false)
 		editing_menu_button_popup.set_item_disabled(5, false)
