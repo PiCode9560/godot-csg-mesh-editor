@@ -2,6 +2,9 @@
 
 A plugin that allow you to edit the geometry of a mesh resource using the CSG nodes. Perfect for prototyping levels, or 3D models.
 
+### More than just CSG
+This plugin is not just as simple as the CSG `baked mesh instance` option. This plugin allow you to edit mesh as CSG in a **non-destructive way**; You can edit a mesh as CSG, then apply it back to the mesh. Later on, you can edit the mesh again and it will bring back the previous CSG nodes.
+
 ## Usage
 
 - Select mesh instances that have a mesh assigned.
