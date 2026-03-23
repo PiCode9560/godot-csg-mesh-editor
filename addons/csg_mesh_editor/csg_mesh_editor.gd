@@ -225,6 +225,7 @@ func _apply_csg_child_to_mesh_instance(mesh_instance: MeshInstance3D, is_new_mes
 			array_mesh.clear_surfaces()
 			for i in new_mesh.get_surface_count():
 				array_mesh.add_surface_from_arrays(new_mesh.surface_get_primitive_type(i), new_mesh.surface_get_arrays(i))
+				array_mesh.surface_set_material(i, new_mesh.surface_get_material(i))
 
 
 	else: # new mesh
@@ -264,7 +265,8 @@ func _add_node_from_data_tree(edit_tree:Array, parent:Node) -> Node:
 func _get_node_data_tree(node:Node) -> Array:
 	var node_data := []
 
-	node_data.append(node.get_class())
+	var node_class := node.get_class()
+	node_data.append(node_class)
 
 	var properties:Dictionary
 	for property in node.get_property_list():
@@ -275,6 +277,8 @@ func _get_node_data_tree(node:Node) -> Array:
 				continue
 
 		var property_data := node.get(property_name)
+		if ClassDB.class_get_property_default_value(node_class, property_name) == property_data:
+			continue
 		if property_data is NodePath:
 			property_data = String(property_data)
 
@@ -389,6 +393,7 @@ static func _undo_redo_set_mesh_surfaces_from_another_mesh(mesh1: ArrayMesh, mes
 	mesh1.clear_surfaces()
 	for i in mesh2.get_surface_count():
 		mesh1.add_surface_from_arrays(mesh2.surface_get_primitive_type(i), mesh2.surface_get_arrays(i))
+		mesh1.surface_set_material(i, mesh2.surface_get_material(i))
 
 #endregion
 
