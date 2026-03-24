@@ -24,7 +24,11 @@ https://github.com/user-attachments/assets/94a18b24-2838-41e7-83dd-10d93afa20f3
 
 <img width="299" height="207" alt="Screenshot 2026-03-23 093544" src="https://github.com/user-attachments/assets/44cfc3b8-c4b6-40cc-a785-d68515961025" />  <img width="334" height="140" alt="image" src="https://github.com/user-attachments/assets/d02f9d5a-3790-44ee-8a3a-2b834925eedd" />
 
+## Install
 
+Download the plugin from the godot [asset library](https://godotengine.org/asset-library/asset/4939), ideally from the built-in assetlib in the godot editor. Alternatively you can download the source code from the [release page](https://github.com/PiCode9560/godot-csg-mesh-editor/releases), unzip the file and place the addon folder into your project.
+
+In Godot, go to `project -> project settings -> plugins` and enable the plugin. Then it is ready to be used.
 
 
 
