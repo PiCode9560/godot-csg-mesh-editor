@@ -1,4 +1,4 @@
-<img width="128" height="128" alt="image" src="https://raw.githubusercontent.com/PiCode9560/godot-csg-mesh-editor/91f07c0d3825661978ac69829dd585561416f35c/icon.svg" />
+![thumbnail](https://raw.githubusercontent.com/PiCode9560/godot-csg-mesh-editor/b6b2a4d38bc8d7339948ebe8cf05d2f01dc54d48/external_images/Thumbnail.png)
 
 # CSG Mesh Editor
 
