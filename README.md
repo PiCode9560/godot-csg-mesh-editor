@@ -1,4 +1,4 @@
-![thumbnail](https://raw.githubusercontent.com/PiCode9560/godot-csg-mesh-editor/b6b2a4d38bc8d7339948ebe8cf05d2f01dc54d48/external_images/Thumbnail.png)
+![thumbnail](https://raw.githubusercontent.com/PiCode9560/godot-csg-mesh-editor/3d43eee75d5fd9f3047d6f79de6db4e83ce3275b/external_images/Thumbnail.png)
 
 # CSG Mesh Editor
 
